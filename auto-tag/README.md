@@ -22,6 +22,6 @@ jobs:
     steps:
       - uses: askeladdenco/actions/auto-tag@master
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
 ```
