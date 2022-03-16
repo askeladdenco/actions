@@ -1,5 +1,7 @@
 # yarn-install
 
+Installs dependencies with yarn (including private dependencies)
+
 ## Parameters
 
 | **Input**         | **Description**                | **Required** | **Default** |
