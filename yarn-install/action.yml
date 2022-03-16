@@ -11,6 +11,10 @@ inputs:
     description: 'Command to install the project'
     required: false
     default: 'yarn'
+  cache:
+    description: 'What to cache'
+    required: false
+    default: 'yarn'
 runs:
   using: composite 
   steps:
@@ -21,7 +25,7 @@ runs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ inputs.node-version }}
-        cache: yarn
+        cache: ${{ inputs.cache }}
         registry-url: https://registry.npmjs.org/
         
     - run: ${{ inputs.install-command }}
