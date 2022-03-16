@@ -23,7 +23,8 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: yarn
         registry-url: https://registry.npmjs.org/
-    # - run: ${{ inputs.install-command }}
-    #   shell: bash
-    #   env:
-    #     NODE_AUTH_TOKEN: ${{ inputs.auth-token }}
+        
+    - run: ${{ inputs.install-command }}
+      shell: bash
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.auth-token }}
