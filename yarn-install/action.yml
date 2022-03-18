@@ -1,12 +1,14 @@
 name: 'Yarn install'
-description: 'Installs dependencies with yarn (including private @askeladden dependencies)'
+description: 'Installs dependencies with yarn (including private dependencies)'
 inputs:
   node-version:
     description: 'Node version to use'
-    required: true
+    required: false
+    default: 16.13.0
   auth-token:
     description: 'GitHub authentication token'
-    required: true
+    required: false 
+    default: ''
   install-command:
     description: 'Command to install the project'
     required: false

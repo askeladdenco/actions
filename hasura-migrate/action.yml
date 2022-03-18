@@ -1,0 +1,35 @@
+name: 'Hasura migrate'
+description: 'Migrates a Hasura database'
+inputs:
+  endpoint:
+    description: 'Endpoint of the Hasura instance'
+    required: true
+  database-name:
+    description: 'Name of the database to migrate'
+    required: true
+  admin-secret:
+    description: 'Admin secret of the Hasura instance'
+    required: true
+  cli-version:
+    description: 'Hasura CLI version'
+    required: false
+    default: 'v2.1.1'
+  working-directory:
+    description: 'Working directory where hasura config is located'
+    required: false
+    default: '.'
+runs:
+  using: composite 
+  steps:
+    - uses: askeladdenco/actions/yarn-install@master
+      with:
+        node-version: 16.13.0
+        install-command: yarn global add hasura-cli@${{ inputs.cli-version }}
+
+    - name: 'Apply hasura migrations and metadata'
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        hasura migrate  apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check --database-name ${{ inputs.database-name }} 
+        hasura metadata apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
+    
