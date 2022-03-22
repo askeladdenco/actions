@@ -12,7 +12,7 @@ inputs:
   install-command:
     description: 'Command to install the project'
     required: false
-    default: 'yarn'
+    default: yarn
   cache:
     description: 'What to cache'
     required: false
@@ -31,6 +31,6 @@ runs:
         registry-url: https://registry.npmjs.org/
         
     - run: ${{ inputs.install-command }}
-      shell: bash
+      shell: bash  
       env:
         NODE_AUTH_TOKEN: ${{ inputs.auth-token }}
