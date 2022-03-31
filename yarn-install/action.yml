@@ -17,6 +17,10 @@ inputs:
     description: 'What to cache'
     required: false
     default: 'yarn'
+  npmrc-paths: 
+    description: 'Relative paths to where npmrc files should be placed'
+    required: false
+    default: ''
 runs:
   using: composite 
   steps:
@@ -29,7 +33,18 @@ runs:
         node-version: ${{ inputs.node-version }}
         cache: ${{ inputs.cache }}
         registry-url: https://registry.npmjs.org/
-        
+
+    - name: Copy .npmrc
+      if: ${{ inputs.npmrc-paths }} != ''
+      shell: bash
+      run: |
+        createNpmrc() {
+          echo "//registry.npmjs.org/:_authToken=${{ inputs.auth-token }}" > $1/.npmrc
+        }
+        echo ${{ inputs.npmrc-paths }} | xargs -n1 createNpmrc
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.auth-token }}
+
     - run: ${{ inputs.install-command }}
       shell: bash  
       env:

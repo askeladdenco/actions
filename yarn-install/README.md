@@ -4,12 +4,13 @@ Installs dependencies with yarn (including private dependencies)
 
 ## Parameters
 
-| **Input**         | **Description**                | **Required** | **Default** |
-|-------------------|--------------------------------|--------------|-------------|
-| `auth-token`      | GitHub authentication token    | false        | -           |
-| `node-version`    | Node version to use            | false        | 16.13.0     |
-| `install-command` | Command to install the project | false        | yarn        |
-| `cache`           | What to cache                  | false        | yarn        |
+| **Input**         | **Description**                                                                                         | **Required** | **Default** |
+|-------------------|---------------------------------------------------------------------------------------------------------|--------------|-------------|
+| `auth-token`      | GitHub authentication token                                                                             | false        | -           |
+| `node-version`    | Node version to use                                                                                     | false        | 16.13.0     |
+| `install-command` | Command to install the project                                                                          | false        | yarn        |
+| `cache`           | What to cache                                                                                           | false        | yarn        |
+| `npmrc-paths`     | Relative paths to where npmrc files should be placed (space separated). Only required for heroku deploy | false        | -           |
 
 ## Example usage
 
@@ -27,5 +28,6 @@ jobs:
         with:
           node-version: 16.13.0
           auth-token: ${{ secrets.ACO_NPM_AUTH_TOKEN }}
-          install-command: yarn --cwd packages/some_api
+          install-command: yarn --cwd packages/api
+          npmrc-paths: . ./packages/api
 ```
