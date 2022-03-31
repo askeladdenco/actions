@@ -37,11 +37,7 @@ runs:
     - name: Copy .npmrc
       if: ${{ inputs.npmrc-paths }} != ''
       shell: bash
-      run: |
-        createNpmrc() {
-          echo "//registry.npmjs.org/:_authToken=${{ inputs.auth-token }}" > $1/.npmrc
-        }
-        echo ${{ inputs.npmrc-paths }} | xargs -n1 createNpmrc
+      run: echo ${{ inputs.npmrc-paths }} | xargs -I{} sh -c 'echo "//registry.npmjs.org/:_authToken=${{ inputs.auth-token }}" > $1/.npmrc' -- {}
       env:
         NODE_AUTH_TOKEN: ${{ inputs.auth-token }}
 
