@@ -12,7 +12,7 @@ inputs:
   install-command:
     description: 'Command to install the project'
     required: false
-    default: yarn
+    default: yarn --frozen-lockfile
   cache:
     description: 'What to cache'
     required: false
