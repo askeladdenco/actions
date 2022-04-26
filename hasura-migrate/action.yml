@@ -30,6 +30,7 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       run: |
-        hasura migrate  apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check --database-name ${{ inputs.database-name }} 
-        hasura metadata apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
+        hasura migrate  apply  --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check --database-name ${{ inputs.database-name }} 
+        hasura metadata apply  --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
+        hasura metadata reload --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
     
