@@ -7,7 +7,11 @@ inputs:
     default: 16.13.0
   auth-token:
     description: 'GitHub authentication token'
-    required: false 
+    required: false
+    default: ''
+  marmelab-token:
+    description: 'Auth token for marmelab registry (react-admin)'
+    required: false
     default: ''
   install-command:
     description: 'Command to install the project'
@@ -17,12 +21,12 @@ inputs:
     description: 'What to cache'
     required: false
     default: 'yarn'
-  npmrc-paths: 
+  npmrc-paths:
     description: 'Relative paths to where npmrc files should be placed'
     required: false
     default: ''
 runs:
-  using: composite 
+  using: composite
   steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -41,7 +45,12 @@ runs:
       env:
         NODE_AUTH_TOKEN: ${{ inputs.auth-token }}
 
+    - name: Add marmelab token to .npmrc
+      if: ${{ inputs.npmrc-paths }} != '' && ${{ inputs.marmelab-token }} != ''
+      shell: bash
+      run: echo ${{ inputs.npmrc-paths }} | xargs -I{} sh -c 'echo "@react-admin:registry=https://registry.marmelab.com\n//registry.marmelab.com/:_authToken=${{ inputs.marmelab-token }}" >> $1/.npmrc' -- {}
+
     - run: ${{ inputs.install-command }}
-      shell: bash  
+      shell: bash
       env:
         NODE_AUTH_TOKEN: ${{ inputs.auth-token }}

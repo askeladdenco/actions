@@ -5,8 +5,9 @@ Installs dependencies with yarn (including private dependencies)
 ## Parameters
 
 | **Input**         | **Description**                                                                                         | **Required** | **Default** |
-|-------------------|---------------------------------------------------------------------------------------------------------|--------------|-------------|
+| ----------------- | ------------------------------------------------------------------------------------------------------- | ------------ | ----------- |
 | `auth-token`      | GitHub authentication token                                                                             | false        | -           |
+| `marmelab-token`  | Auth token for marmelab registry (react-admin)                                                          | false        | -           |
 | `node-version`    | Node version to use                                                                                     | false        | 16.13.0     |
 | `install-command` | Command to install the project                                                                          | false        | yarn        |
 | `cache`           | What to cache                                                                                           | false        | yarn        |
@@ -15,7 +16,7 @@ Installs dependencies with yarn (including private dependencies)
 ## Example usage
 
 ```yaml
-name: Install 
+name: Install
 on:
   push:
     branches:
