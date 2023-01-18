@@ -21,11 +21,13 @@ inputs:
 runs:
   using: composite 
   steps:
-    - uses: askeladdenco/actions/yarn-install@master
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
       with:
-        node-version: 16.13.0
-        install-command: npm i -g hasura-cli@${{ inputs.cli-version }}
-
+        node-version: 16
+    - name: 'Install hasura-cli'
+      shell: bash
+      run: npm i -g hasura-cli@${{ inputs.cli-version }}
     - name: 'Apply hasura migrations and metadata'
       shell: bash
       working-directory: ${{ inputs.working-directory }}
