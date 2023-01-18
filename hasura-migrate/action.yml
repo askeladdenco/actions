@@ -24,7 +24,7 @@ runs:
     - uses: askeladdenco/actions/yarn-install@master
       with:
         node-version: 16.13.0
-        install-command: yarn global add hasura-cli@${{ inputs.cli-version }}
+        install-command: npm i -g hasura-cli@${{ inputs.cli-version }}
 
     - name: 'Apply hasura migrations and metadata'
       shell: bash
