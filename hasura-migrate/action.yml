@@ -32,7 +32,14 @@ runs:
       shell: bash
       working-directory: ${{ inputs.working-directory }}
       run: |
-        hasura migrate  apply  --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check --database-name ${{ inputs.database-name }} 
-        hasura metadata apply  --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
-        hasura metadata reload --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
-    
+        hasura migrate apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check --database-name ${{ inputs.database-name }}
+        # Without --disallow-inconsistent-metadata, apply exits 0 and drops every inconsistent
+        # table, relationship and function from the API. CLIs older than about v2.15 lack the flag.
+        if hasura metadata apply --help 2>&1 | grep -q -- '--disallow-inconsistent-metadata'; then
+          hasura metadata apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check --disallow-inconsistent-metadata
+        else
+          hasura metadata apply --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --log-level DEBUG --skip-update-check
+        fi
+        # Exits 1 if the server's metadata is inconsistent, so older CLIs still fail the job.
+        # Apply already rebuilds the schema cache, so no separate reload is needed.
+        hasura metadata inconsistency status --endpoint ${{ inputs.endpoint }} --admin-secret ${{ inputs.admin-secret }} --skip-update-check
